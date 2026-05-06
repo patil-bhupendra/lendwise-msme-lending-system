@@ -11,6 +11,7 @@ function App() {
 
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -20,6 +21,7 @@ function App() {
     e.preventDefault();
     setError(null);
     setResult(null);
+    setLoading(true);
 
     try {
       const res = await axios.post(
@@ -29,93 +31,94 @@ function App() {
       setResult(res.data);
     } catch (err) {
       setError(err.response?.data || { error: "Something went wrong" });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={styles.container}>
-      <h2>MSME Lending Decision System</h2>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
 
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <input
-          name="monthlyRevenue"
-          placeholder="Monthly Revenue"
-          value={form.monthlyRevenue}
-          onChange={handleChange}
-        />
+        <h2 className="text-2xl font-bold text-center mb-6">
+          MSME Lending System
+        </h2>
 
-        <input
-          name="loanAmount"
-          placeholder="Loan Amount"
-          value={form.loanAmount}
-          onChange={handleChange}
-        />
+        <form onSubmit={handleSubmit} className="space-y-4">
 
-        <input
-          name="tenure"
-          placeholder="Tenure (months)"
-          value={form.tenure}
-          onChange={handleChange}
-        />
+          <input
+            name="monthlyRevenue"
+            placeholder="Monthly Revenue"
+            value={form.monthlyRevenue}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-lg"
+          />
 
-        <input
-          name="pan"
-          placeholder="PAN"
-          value={form.pan}
-          onChange={handleChange}
-        />
+          <input
+            name="loanAmount"
+            placeholder="Loan Amount"
+            value={form.loanAmount}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-lg"
+          />
 
-        <button type="submit">Check Decision</button>
-      </form>
+          <input
+            name="tenure"
+            placeholder="Tenure (months)"
+            value={form.tenure}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-lg"
+          />
 
-      {/* Result */}
-      {result && (
-        <div style={styles.result}>
-          <h3>Decision: {result.decision}</h3>
-          <p>Score: {result.score}</p>
-          <p>Reasons: {result.reasons.join(", ") || "None"}</p>
-        </div>
-      )}
+          <input
+            name="pan"
+            placeholder="PAN"
+            value={form.pan}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-lg"
+          />
 
-      {/* Error */}
-      {error && (
-        <div style={styles.error}>
-          <h4>Error: {error.error}</h4>
-          {error.messages && (
-            <ul>
-              {error.messages.map((msg, i) => (
-                <li key={i}>{msg}</li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
+          >
+            {loading ? "Processing..." : "Check Decision"}
+          </button>
+        </form>
+
+        {/* Result */}
+        {result && (
+          <div className="mt-6 p-4 rounded-lg bg-gray-50 border">
+            <h3
+              className={`text-lg font-bold ${
+                result.decision === "APPROVED"
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
+            >
+              {result.decision}
+            </h3>
+            <p className="mt-2">Score: {result.score}</p>
+            <p>Reasons: {result.reasons.join(", ") || "None"}</p>
+          </div>
+        )}
+
+        {/* Error */}
+        {error && (
+          <div className="mt-6 p-4 bg-red-100 text-red-700 rounded-lg">
+            <p className="font-semibold">{error.error}</p>
+            {error.messages && (
+              <ul className="list-disc ml-5 mt-2">
+                {error.messages.map((msg, i) => (
+                  <li key={i}>{msg}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    maxWidth: "500px",
-    margin: "50px auto",
-    textAlign: "center",
-    fontFamily: "Arial",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-  },
-  result: {
-    marginTop: "20px",
-    padding: "10px",
-    background: "#e0ffe0",
-  },
-  error: {
-    marginTop: "20px",
-    padding: "10px",
-    background: "#ffe0e0",
-  },
-};
 
 export default App;
