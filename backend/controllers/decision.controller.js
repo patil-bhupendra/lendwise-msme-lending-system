@@ -1,7 +1,8 @@
-exports.getDecision = (req, res) => {
-  const { monthlyRevenue, loanAmount, tenure, businessType } = req.body;
+const { calculateScore } = require("../services/scoring.service");
 
-  // Basic validation
+exports.getDecision = (req, res) => {
+  const { monthlyRevenue, loanAmount, tenure } = req.body;
+
   if (!monthlyRevenue || !loanAmount || !tenure) {
     return res.status(400).json({
       error: "MISSING_FIELDS",
@@ -9,10 +10,13 @@ exports.getDecision = (req, res) => {
     });
   }
 
-  // Dummy response (for now)
-  return res.status(200).json({
-    decision: "APPROVED",
-    score: 75,
-    reasons: [],
-  });
+  const data = {
+    monthlyRevenue: Number(monthlyRevenue),
+    loanAmount: Number(loanAmount),
+    tenure: Number(tenure),
+  };
+
+  const result = calculateScore(data);
+
+  return res.status(200).json(result);
 };
