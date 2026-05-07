@@ -60,12 +60,12 @@ Evaluates loan application and returns decision.
 ## Decision Logic (Scoring Model)
 The system uses a rule-based scoring engine (base score = 50):
 ### 1. Loan-to-Revenue Ratio
-```
+
 - < 1 → +30 (low risk)
 - 1–3 → +15 (moderate risk)
 -
     3 → -25 (high risk)
-```
+
 ### 2. EMI Burden
 - EMI/Revenue < 30% → +25
 - 30–60% → +10
@@ -87,8 +87,8 @@ The system uses a rule-based scoring engine (base score = 50):
 - Unrealistic combinations (e.g. very high loan vs revenue) → penalty
 
 ## Final Decision
-Score ≥ 60 → **APPROVED**
-Score < 60 → **REJECTED**
+- Score ≥ 60 → **APPROVED**
+- Score < 60 → **REJECTED**
 ## Validation & Edge Case Handling
 
 The system handles real-world input issues:
@@ -100,16 +100,15 @@ The system handles real-world input issues:
 - Unrealistic loan requests
 
 ## Example Error Response
+```
 {
   "error": "VALIDATION_ERROR",
  "messages": [
- 
  "monthlyRevenue is Required",
  "loanAmount must be a number"
- 
  ]
 }
-
+```
 ## Project Structure
 ```
 .
@@ -149,16 +148,17 @@ The system handles real-world input issues:
 
 ## Setup Instructions
 ### Backend
-
+```
 cd backend
 npm install
 npm run dev
-
+```
 ### Frontend
+```
 cd frontend
 npm install
 npm run dev
-
+```
 ## Assumptions
 - EMI is simplified as loanAmount / tenure
 - PAN validation uses regex (mock format)
