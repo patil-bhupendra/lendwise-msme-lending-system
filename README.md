@@ -84,8 +84,89 @@ The system uses a rule-based scoring engine (base score = 50):
   ₹5,00,000 → +10 (strong business)
 
 ### 5. Data Consistency Check
-Unrealistic combinations (e.g. very high loan vs revenue) → penalty
+- Unrealistic combinations (e.g. very high loan vs revenue) → penalty
 
+## Final Decision
+Score ≥ 60 → **APPROVED**
+Score < 60 → **REJECTED**
+## Validation & Edge Case Handling
 
-If you found this project useful, consider giving it a ⭐ on GitHub!
+The system handles real-world input issues:
 
+- Missing fields
+- Invalid data types (non-numeric input)
+- Negative values
+- Invalid PAN format
+- Unrealistic loan requests
+
+## Example Error Response
+{
+  "error": "VALIDATION_ERROR",
+ "messages": [
+ 
+ "monthlyRevenue is Required",
+ "loanAmount must be a number"
+ 
+ ]
+}
+
+## Project Structure
+```
+.
+├── backend
+│   ├── app.js
+│   ├── controllers
+│   │   └── decision.controller.js
+│   ├── models
+│   │   └── Application.js
+│   ├── package.json
+│   ├── routes
+│   │   └── decision.routes.js
+│   ├── server.js
+│   ├── services
+│   │   └── scoring.service.js
+│   └── utils
+│       └── validators.js
+└── frontend
+    ├── eslint.config.js
+    ├── index.html
+    ├── package.json
+    ├── public
+    │   ├── favicon.svg
+    │   └── icons.svg
+    ├── README.md
+    ├── src
+    │   ├── App.css
+    │   ├── App.jsx
+    │   ├── assets
+    │   │   ├── hero.png
+    │   │   ├── react.svg
+    │   │   └── vite.svg
+    │   ├── index.css
+    │   └── main.jsx
+    └── vite.config.js
+```
+
+## Setup Instructions
+### Backend
+
+cd backend
+npm install
+npm run dev
+
+### Frontend
+cd frontend
+npm install
+npm run dev
+
+## Assumptions
+- EMI is simplified as loanAmount / tenure
+- PAN validation uses regex (mock format)
+- Revenue is assumed to be stable monthly income
+- No external credit bureau data is used
+  
+## Author
+- GitHub: https://github.com/patil-bhupendra
+## License
+
+This project is created for technical assessment purposes.
