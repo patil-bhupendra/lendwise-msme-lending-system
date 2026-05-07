@@ -112,7 +112,6 @@ function App() {
           </button>
         </form>
 
-        {/* Result */}
         {result && (
           <div className="mt-6 p-4 rounded-lg bg-gray-50 border">
             <h3
@@ -125,11 +124,22 @@ function App() {
               {result.decision}
             </h3>
             <p className="mt-2">Score: {result.score}</p>
-            <p>Reasons: {result.reasons.join(", ") || "None"}</p>
+            <div className="mt-3">
+              <p className="font-semibold">Reasons:</p>
+
+              {result.reasons.length > 0 ? (
+                <ul className="list-disc ml-5 mt-2 text-left">
+                  {result.reasons.map((reason, index) => (
+                    <li key={index}>{reason}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-green-600 mt-1">No risk flags detected</p>
+              )}
+            </div>
           </div>
         )}
 
-        {/* Error */}
         {error && (
           <div className="mt-6 p-4 bg-red-100 text-red-700 rounded-lg">
             <p className="font-semibold">{error.error}</p>
