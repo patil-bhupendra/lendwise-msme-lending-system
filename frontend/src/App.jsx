@@ -3,6 +3,9 @@ import axios from "axios";
 
 function App() {
   const [form, setForm] = useState({
+    ownerName: "",
+    businessType: "",
+    purpose: "",
     monthlyRevenue: "",
     loanAmount: "",
     tenure: "",
@@ -24,10 +27,7 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/decision",
-        form
-      );
+      const res = await axios.post("http://localhost:5000/api/decision", form);
       setResult(res.data);
     } catch (err) {
       setError(err.response?.data || { error: "Something went wrong" });
@@ -39,12 +39,38 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
-
         <h2 className="text-2xl font-bold text-center mb-6">
           MSME Lending System
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            name="ownerName"
+            placeholder="Business Owner Name"
+            value={form.ownerName}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-lg"
+          />
+
+          <select
+            name="businessType"
+            value={form.businessType}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-lg"
+          >
+            <option value="">Select Business Type</option>
+            <option value="Retail">Retail</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Services">Services</option>
+          </select>
+
+          <input
+            name="purpose"
+            placeholder="Purpose of Loan"
+            value={form.purpose}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-lg"
+          />
 
           <input
             name="monthlyRevenue"

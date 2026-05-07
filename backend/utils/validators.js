@@ -1,8 +1,21 @@
 function validateInput(data) {
   const errors = [];
 
-  const { monthlyRevenue, loanAmount, tenure, pan } = data;
+  const {
+    ownerName,
+    businessType,
+    purpose,
+    monthlyRevenue,
+    loanAmount,
+    tenure,
+    pan,
+  } = data;
 
+  if (!ownerName) errors.push("ownerName is required");
+
+  if (!businessType) errors.push("businessType is required");
+
+  if (!purpose) errors.push("purpose is required");
   if (!monthlyRevenue) errors.push("monthlyRevenue is required");
   if (!loanAmount) errors.push("loanAmount is required");
   if (!tenure) errors.push("tenure is required");

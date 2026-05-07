@@ -12,6 +12,9 @@ exports.getDecision = (req, res) => {
   }
 
   const data = {
+    ownerName: req.body.ownerName,
+    businessType: req.body.businessType,
+    purpose: req.body.purpose,
     monthlyRevenue: Number(req.body.monthlyRevenue),
     loanAmount: Number(req.body.loanAmount),
     tenure: Number(req.body.tenure),
