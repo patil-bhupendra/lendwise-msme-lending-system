@@ -254,9 +254,11 @@ npm run dev
 - Suitable for audit-style tracking
 
 ### Architectural tradeoff
+```
 - Simplified monolithic backend for sprint speed
   vs
 - Full microservice-based lending system
+```
 
 ## Future Improvements
 
